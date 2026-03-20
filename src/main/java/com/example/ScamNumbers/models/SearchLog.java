@@ -23,7 +23,6 @@ public class SearchLog {
     @ManyToOne(optional = false)
     @JoinColumn(name = "number_id", nullable = false, updatable = false)
     private Number number;
-    @NonNull
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant searchedAt;
