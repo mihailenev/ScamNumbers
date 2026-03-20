@@ -1,5 +1,7 @@
 package com.example.ScamNumbers.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -24,14 +26,17 @@ public class Report {
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "user_id", nullable = false, updatable = false)
+    @JsonBackReference
     private User user;
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "number_id", nullable = false, updatable = false)
+    @JsonManagedReference
     private Number number;
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false, updatable = false)
+    @JsonManagedReference
     private Category category;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)

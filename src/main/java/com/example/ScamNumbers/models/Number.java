@@ -1,5 +1,6 @@
 package com.example.ScamNumbers.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -32,11 +33,13 @@ public class Number {
             cascade = CascadeType.ALL,
             orphanRemoval = true
     )
+    @JsonManagedReference
     private List<Report> reports;
 
     @OneToMany(
             mappedBy = "number",
             cascade = CascadeType.ALL,
             orphanRemoval = true)
+    @JsonManagedReference
     private List<SearchLog> searchLogs;
 }

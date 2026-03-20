@@ -1,5 +1,6 @@
 package com.example.ScamNumbers.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -22,6 +23,7 @@ public class SearchLog {
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "number_id", nullable = false, updatable = false)
+    @JsonBackReference
     private Number number;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
