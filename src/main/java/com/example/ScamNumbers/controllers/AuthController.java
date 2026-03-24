@@ -1,7 +1,7 @@
 package com.example.ScamNumbers.controllers;
 
-import com.example.ScamNumbers.db.entities.User;
 import com.example.ScamNumbers.models.UserRequestDto;
+import com.example.ScamNumbers.models.UserResponseDto;
 import com.example.ScamNumbers.services.AuthService;
 import jakarta.validation.Valid;
 import org.apache.coyote.BadRequestException;
@@ -20,7 +20,7 @@ public class AuthController {
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/register")
-    public User registerUser(
+    public UserResponseDto registerUser(
             @Valid @RequestBody UserRequestDto request
     ) throws BadRequestException {
         return authService.register(request);

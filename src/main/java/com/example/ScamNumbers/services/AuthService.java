@@ -2,6 +2,7 @@ package com.example.ScamNumbers.services;
 
 import com.example.ScamNumbers.db.entities.User;
 import com.example.ScamNumbers.models.UserRequestDto;
+import com.example.ScamNumbers.models.UserResponseDto;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,15 +17,16 @@ public class AuthService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    public User register(UserRequestDto requestDto) throws BadRequestException {
+    public UserResponseDto register(UserRequestDto requestDto) throws BadRequestException {
 
         if (userService.doesUserExist(requestDto.email())) throw new BadRequestException();
 
-        return userService.saveUser(
+        User registeredUser = userService.saveUser(
                 new User(
                         requestDto.email(),
                         passwordEncoder.encode(requestDto.password())
                 )
         );
+        return new UserResponseDto(registeredUser.getId(), registeredUser.getEmail());
     }
 }
