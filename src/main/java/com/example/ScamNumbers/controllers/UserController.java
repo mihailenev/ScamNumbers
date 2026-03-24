@@ -1,7 +1,11 @@
 package com.example.ScamNumbers.controllers;
 
-import com.example.ScamNumbers.models.User;
-import com.example.ScamNumbers.repositories.UserRepository;
+import com.example.ScamNumbers.db.entities.User;
+import com.example.ScamNumbers.db.repositories.UserRepository;
+import com.example.ScamNumbers.models.UserRequestDto;
+import com.example.ScamNumbers.services.UserService;
+import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,9 +16,11 @@ import java.util.UUID;
 public class UserController {
 
     private final UserRepository userRepository;
+    private final UserService userService;
 
-    public UserController(UserRepository userRepository) {
+    public UserController(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
+        this.userService = userService;
     }
 
     @GetMapping("/users/{email}")
@@ -30,9 +36,9 @@ public class UserController {
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/users")
     public User createUser(
-            @RequestBody User user
-    ) {
-        return userRepository.save(user);
+            @Valid @RequestBody UserRequestDto request
+    ) throws BadRequestException {
+        return userService.createUser(request);
     }
 
 

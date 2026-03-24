@@ -1,4 +1,4 @@
-package com.example.ScamNumbers.models;
+package com.example.ScamNumbers.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;

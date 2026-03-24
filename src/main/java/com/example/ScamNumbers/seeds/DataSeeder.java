@@ -1,7 +1,7 @@
 package com.example.ScamNumbers.seeds;
 
-import com.example.ScamNumbers.models.Category;
-import com.example.ScamNumbers.repositories.CategoryRepository;
+import com.example.ScamNumbers.db.entities.Category;
+import com.example.ScamNumbers.db.repositories.CategoryRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

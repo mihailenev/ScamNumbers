@@ -1,7 +1,6 @@
-package com.example.ScamNumbers.models;
+package com.example.ScamNumbers.db.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
@@ -31,16 +30,14 @@ public class Report {
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "number_id", nullable = false, updatable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Number number;
     @NonNull
     @ManyToOne(optional = false)
     @JoinColumn(name = "category_id", nullable = false, updatable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Category category;
     @CreatedDate
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
-
-
 }

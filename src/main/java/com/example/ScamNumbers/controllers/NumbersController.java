@@ -1,7 +1,7 @@
 package com.example.ScamNumbers.controllers;
 
-import com.example.ScamNumbers.models.Number;
-import com.example.ScamNumbers.repositories.NumberRepository;
+import com.example.ScamNumbers.db.entities.Number;
+import com.example.ScamNumbers.db.repositories.NumberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,18 +17,18 @@ public class NumbersController {
     }
 
     @GetMapping("/numbers")
-    public List<com.example.ScamNumbers.models.Number> findAllNumbers() {
+    public List<Number> findAllNumbers() {
         return numberRepository.findAll();
     }
 
     @GetMapping("/numbers/{number}")
-    public com.example.ScamNumbers.models.Number findNumber(@PathVariable String number) {
-        return numberRepository.getNumberByNumberIs(number);
+    public Number findNumber(@PathVariable String number) {
+        return numberRepository.findByNumber(number).orElse(null);// fix laterrrrrrr
     }
 
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/numbers")
-    public com.example.ScamNumbers.models.Number createNumber(@RequestBody Number number) {
+    public Number createNumber(@RequestBody Number number) {
         return numberRepository.save(number);
     }
 
