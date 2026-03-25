@@ -20,16 +20,16 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable) // disable CSRF for Postman testing
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
-                /*
+                //.authorizeHttpRequests(auth -> auth.anyRequest().permitAll())
+
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users").permitAll()  // public endpoint
                         .requestMatchers("/numbers").permitAll()
-                        .requestMatchers("/reports").permitAll()
+                        .requestMatchers("/reports").authenticated()
                         .requestMatchers("/search").permitAll()
                         //.requestMatchers("/admin/**").authenticated() // secured
                         .anyRequest().permitAll() // everything else public
-                )*/
+                )
                 .httpBasic(httpBasic -> {
                 }); // or formLogin()
 
