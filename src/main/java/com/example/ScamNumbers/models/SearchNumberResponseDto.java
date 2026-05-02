@@ -1,10 +1,10 @@
 package com.example.ScamNumbers.models;
 
-import java.util.HashMap;
+import java.util.Map;
 
 public record SearchNumberResponseDto(
         String number,
         Long searched,
-        HashMap<String, Integer> typeAndNumberReports
+        Map<String, Integer> typeAndNumberReports
 ) {
 }

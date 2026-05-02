@@ -2,6 +2,7 @@ package com.example.ScamNumbers.controllers;
 
 import com.example.ScamNumbers.db.entities.Number;
 import com.example.ScamNumbers.db.entities.Report;
+import com.example.ScamNumbers.db.entities.User;
 import com.example.ScamNumbers.db.repositories.ReportRepository;
 import com.example.ScamNumbers.models.ReportRequestDto;
 import com.example.ScamNumbers.models.ReportResponseDto;
@@ -9,6 +10,7 @@ import com.example.ScamNumbers.services.ReportService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
@@ -43,10 +45,11 @@ public class ReportController {
     @PostMapping("/reports")
     @ResponseStatus(HttpStatus.CREATED)
     public ReportResponseDto createReport(
-            @Valid @RequestBody ReportRequestDto reportDto
+            @Valid @RequestBody ReportRequestDto reportDto,
+            @AuthenticationPrincipal User user
     ) {
 
-        return reportService.createReport(reportDto);
+        return reportService.createReport(reportDto, user);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)

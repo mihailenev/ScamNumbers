@@ -27,11 +27,7 @@ public class ReportService {
         this.reportRepository = reportRepository;
     }
 
-    public ReportResponseDto createReport(ReportRequestDto request) {
-
-        User user = userRepository.findUserByEmailIs(request.email()); //else
-
-        if (user == null) throw new RuntimeException("User does not exist");
+    public ReportResponseDto createReport(ReportRequestDto request, User user) {
 
         Number number = numberRepository
                 .findByNumber(request.number())
@@ -39,6 +35,12 @@ public class ReportService {
 
         Category category = categoryRepository.findById(request.categoryId())
                 .orElseThrow(() -> new RuntimeException("Category not found"));
+
+        //user can report number once add delete and add report
+        if (reportRepository.existsByUserAndNumber(user, number)) {
+            throw new RuntimeException("You have already reported this number");
+        }
+
 
         Report report = reportRepository.save(new Report(user, number, category));
 

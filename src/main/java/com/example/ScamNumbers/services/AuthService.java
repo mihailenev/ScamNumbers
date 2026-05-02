@@ -1,7 +1,10 @@
 package com.example.ScamNumbers.services;
 
 import com.example.ScamNumbers.db.entities.User;
-import com.example.ScamNumbers.models.UserRequestDto;
+import com.example.ScamNumbers.db.repositories.UserRepository;
+import com.example.ScamNumbers.models.AuthRequestDto;
+import com.example.ScamNumbers.models.AuthResponseDto;
+import com.example.ScamNumbers.models.UserResponseDto;
 import org.apache.coyote.BadRequestException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -9,16 +12,18 @@ import org.springframework.stereotype.Service;
 @Service
 public class AuthService {
     private final UserService userService;
+    private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JWTService jwtService;
 
-    public AuthService(UserService userService, PasswordEncoder passwordEncoder, JWTService jwtService) {
+    public AuthService(UserService userService, PasswordEncoder passwordEncoder, JWTService jwtService, UserRepository userRepository) {
         this.userService = userService;
+        this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
     }
 
-    public String register(UserRequestDto requestDto) throws BadRequestException {
+    public AuthResponseDto register(AuthRequestDto requestDto) throws BadRequestException {
 
         if (userService.doesUserExist(requestDto.email())) throw new BadRequestException("User exists");
 
@@ -28,12 +33,12 @@ public class AuthService {
                         passwordEncoder.encode(requestDto.password())
                 )
         );
-        return jwtService.generateToken(registeredUser);
+        String token = jwtService.generateToken(registeredUser);
+        return new AuthResponseDto(token, new UserResponseDto(registeredUser.getId(), registeredUser.getEmail()));
     }
 
-    public String login(UserRequestDto requestDto) throws BadRequestException {
-        //check if user exists
-        User user = userService.getUser(requestDto.email());
+    public AuthResponseDto login(AuthRequestDto requestDto) throws BadRequestException {
+        User user = userRepository.findUserByEmailIs(requestDto.email());
 
         if (user == null) throw new BadRequestException("Wrong email or password");
 
@@ -41,6 +46,7 @@ public class AuthService {
             throw new BadRequestException("Wrong email or password");
 
 
-        return jwtService.generateToken(user);
+        String token = jwtService.generateToken(user);
+        return new AuthResponseDto(token, new UserResponseDto(user.getId(), user.getEmail()));
     }
 }

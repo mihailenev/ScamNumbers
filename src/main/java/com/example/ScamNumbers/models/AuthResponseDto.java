@@ -1,6 +1,7 @@
 package com.example.ScamNumbers.models;
 
 public record AuthResponseDto(
-        String token
+        String token,
+        UserResponseDto user
 ) {
 }

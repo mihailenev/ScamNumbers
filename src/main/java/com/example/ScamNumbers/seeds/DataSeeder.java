@@ -16,13 +16,13 @@ public class DataSeeder {
             if (categoryRepository.count() == 0) {
                 categoryRepository.saveAll(
                         java.util.List.of(
-                                new Category("Scam"),
-                                new Category("Telemarketing"),
-                                new Category("Robocall"),
-                                new Category("Phishing"),
-                                new Category("Debt Collection"),
-                                new Category("Harassment"),
-                                new Category("Suspicious")
+                                new Category("scam"),
+                                new Category("telemarketing"),
+                                new Category("robocall"),
+                                new Category("phishing"),
+                                new Category("debtCollection"),
+                                new Category("harassment"),
+                                new Category("suspicious")
                         )
                 );
                 System.out.println("[+] Categories seeded!");
